@@ -2,28 +2,36 @@ package com.example.jsonassignment.ui.network
 
 import com.example.jsonassignment.network.NetworkInterface
 import com.example.jsonassignment.ui.models.Users
+import com.example.jsonassignment.ui.models.UsersItem
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class UserReciever {
-    private val networkInterface:NetworkInterface
+
 
     companion object{
-        var BASE_URL = "https://my-json-server.typicode.com/"
-    }
 
-    init {
+
+
+
 
         val retrofit = Retrofit
             .Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl("https://my-json-server.typicode.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        networkInterface = retrofit.create(NetworkInterface::class.java)
+        val networkInterface:NetworkInterface by lazy {
+            retrofit.create(NetworkInterface::class.java)
+        }
     }
 
-    suspend fun getUsers(): List<Users> {
+
+    init {
+
+    }
+
+    suspend fun getUsers(): List<UsersItem> {
         return networkInterface.getUsers()
     }
 }
